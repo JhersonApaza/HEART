@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D corazon xd</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="title">I LOVE YOU</div>
+    <div id="container"></div>
+    <div class="stars" id="stars"></div>
+    <div class="floating-hearts" id="floatingHearts"></div>
+    <div class="completion-message" id="completionMessage">Heart formed!</div>
+    
+    <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+    
+    <div class="instructions">Loading...</div>
+
+    <!-- Reproductor de música -->
+    <div class="music-player">
+        <button class="play-button" id="playButton">
+            <div class="play-icon">▶</div>
+            <div class="pause-icon">⏸</div>
+        </button>
+    </div>
+
+    <!-- Audio element (oculto) -->
+    <audio id="backgroundMusic" loop>
+        <source src="song_1.mp3" type="audio/mpeg">
+        <source src="mi_cancion.ogg" type="audio/ogg">
+        <source src="mi_cancion.wav" type="audio/wav">
+        Tu navegador no soporta el elemento de audio.
+    </audio>
+<script src="script.js"></script>
+</body>
+</html
