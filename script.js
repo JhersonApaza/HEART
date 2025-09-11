@@ -1,4 +1,3 @@
-
 // Variables globales
 let scene, camera, renderer, heartParticles;
 let animationPhase = 0;
@@ -28,6 +27,17 @@ let confettiParticles = [];
 let audio = document.getElementById('backgroundMusic');
 let playButton = document.getElementById('playButton');
 let isPlaying = false;
+
+// Array con los nombres de tus imágenes (modifica estos nombres según tus archivos)
+const imageNames = [
+    '1.jpg',
+    '2.jpg', 
+    '3.jpg',
+    '4.jpg',
+    '5.jpg',
+    '6.jpg'
+    // Agrega más nombres de imágenes según tengas
+];
 
 // Función para controlar la música
 function toggleMusic() {
@@ -137,13 +147,17 @@ function createImpactEffect(x) {
     }, duration * 1000);
 }
 
-// Crear explosión de confeti
+// Crear explosión de confeti con imágenes
 function createConfettiExplosion(x, y) {
     const particleCount = 30;
+    const imageCount = 8; // Número de imágenes que aparecerán
+    
+    // Crear partículas normales (corazones, estrellas, círculos)
     for (let i = 0; i < particleCount; i++) {
         const particle = document.createElement('div');
         particle.classList.add('confetti-particle');
         const particleType = Math.random();
+        
         if (particleType < 0.4) {
             particle.classList.add('heart-confetti');
             particle.innerHTML = '❤';
@@ -152,26 +166,69 @@ function createConfettiExplosion(x, y) {
         } else {
             particle.classList.add('circle-confetti');
         }
+        
         particle.style.left = `${x}px`;
         particle.style.top = `${y}px`;
+        
         const angle = (Math.PI * 2 * i) / particleCount + Math.random() * 0.5;
         const distance = 100 + Math.random() * 150;
         const dx = Math.cos(angle) * distance;
         const dy = Math.sin(angle) * distance;
+        
         particle.style.setProperty('--dx', `${dx}px`);
         particle.style.setProperty('--dy', `${dy}px`);
+        
         const duration = 0.8 + Math.random() * 0.7;
         particle.style.animation = `confettiExplode ${duration}s ease-out forwards`;
+        
         if (particleType >= 0.4) {
             const hue = 300 + Math.random() * 60;
             particle.style.backgroundColor = `hsl(${hue}, 100%, 60%)`;
         }
+        
         document.body.appendChild(particle);
         confettiParticles.push(particle);
 
         setTimeout(() => {
             particle.remove();
             confettiParticles = confettiParticles.filter(p => p !== particle);
+        }, duration * 1000);
+    }
+    
+    // Crear partículas de imágenes
+    for (let i = 0; i < imageCount; i++) {
+        const imageParticle = document.createElement('div');
+        imageParticle.classList.add('confetti-particle', 'image-confetti');
+        
+        // Seleccionar una imagen aleatoria
+        const randomImage = imageNames[Math.floor(Math.random() * imageNames.length)];
+        
+        // Crear elemento img
+        const img = document.createElement('img');
+        img.src = randomImage; // Asume que las imágenes están en la carpeta raíz
+        img.alt = 'confetti';
+        
+        imageParticle.appendChild(img);
+        imageParticle.style.left = `${x}px`;
+        imageParticle.style.top = `${y}px`;
+        
+        const angle = (Math.PI * 2 * i) / imageCount + Math.random() * 0.5;
+        const distance = 80 + Math.random() * 120;
+        const dx = Math.cos(angle) * distance;
+        const dy = Math.sin(angle) * distance;
+        
+        imageParticle.style.setProperty('--dx', `${dx}px`);
+        imageParticle.style.setProperty('--dy', `${dy}px`);
+        
+        const duration = 1 + Math.random() * 0.8;
+        imageParticle.style.animation = `confettiExplode ${duration}s ease-out forwards`;
+        
+        document.body.appendChild(imageParticle);
+        confettiParticles.push(imageParticle);
+
+        setTimeout(() => {
+            imageParticle.remove();
+            confettiParticles = confettiParticles.filter(p => p !== imageParticle);
         }, duration * 1000);
     }
 }
