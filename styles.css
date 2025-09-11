@@ -183,6 +183,38 @@ body {
     animation: floatHeart linear infinite;
 }
 
+/* Estilos para las imágenes de confeti */
+.image-confetti {
+    width: auto !important;
+    height: auto !important;
+}
+
+.image-confetti img {
+    width: 40px; /* Tamaño pequeño para las imágenes */
+    height: 40px;
+    object-fit: contain;
+    border-radius: 5px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+    filter: drop-shadow(0 0 5px rgba(255, 42, 109, 0.5));
+}
+
+/* Variaciones de tamaño para más dinamismo */
+.image-confetti:nth-child(2n) img {
+    width: 40px;
+    height: 40px;
+}
+
+.image-confetti:nth-child(3n) img {
+    width: 40px;
+    height: 40px;
+}
+
+.image-confetti:nth-child(4n) img {
+    width: 40px;
+    height: 40px;
+}
+
 /* Estilos del reproductor de música */
 .music-player {
     position: absolute;
@@ -334,6 +366,22 @@ body {
     }
     100% {
         transform: translateY(-100px) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+/* Animación adicional para rotación de imágenes */
+@keyframes imageConfettiRotate {
+    0% {
+        transform: translate(0, 0) rotate(0deg) scale(0);
+        opacity: 1;
+    }
+    50% {
+        opacity: 1;
+        transform: translate(var(--dx), var(--dy)) rotate(270deg) scale(1);
+    }
+    100% {
+        transform: translate(var(--dx), var(--dy)) rotate(540deg) scale(0);
         opacity: 0;
     }
 }
