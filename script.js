@@ -100,11 +100,30 @@ function createFloatingHearts() {
     }
 }
 
-// Crear meteorito "I LOVE YOU"
+// Array con frases cariñosas (agrega esto después del array de imageNames)
+const loveMessages = [
+    "I LOVE YOU",
+    "YOU'RE AMAZING",
+    "MY HEART",
+    "FOREVER YOURS",
+    "BEAUTIFUL SOUL",
+    "MY SUNSHINE",
+    "SWEET DREAMS",
+    "TOGETHER ALWAYS",
+    "MY EVERYTHING",
+    "PRECIOUS LOVE",
+    "ANGEL EYES"
+];
+
+// Función modificada para crear meteorito con frases aleatorias
 function createLoveMeteor() {
     const loveMeteor = document.createElement('div');
     loveMeteor.classList.add('i-love-you-meteor');
-    loveMeteor.textContent = "I LOVE YOU";
+    
+    // Seleccionar una frase aleatoria del array
+    const randomMessage = loveMessages[Math.floor(Math.random() * loveMessages.length)];
+    loveMeteor.textContent = randomMessage;
+    
     const startX = Math.random() * window.innerWidth;
     loveMeteor.style.left = `${startX}px`;
     loveMeteor.style.top = '-50px';
