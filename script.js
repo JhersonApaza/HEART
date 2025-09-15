@@ -392,6 +392,12 @@ function onWindowResize() {
     camera.aspect = window.innerWidth / window.innerHeight;
     camera.updateProjectionMatrix();
     renderer.setSize(window.innerWidth, window.innerHeight);
+
+    if(window.innerWidth < 768) {
+        camera.position.z = 50; // más alejado para que se vea todo el corazón
+    } else {
+        camera.position.z = 40; // valor por defecto
+    }
 }
 
 function animate() {
@@ -482,3 +488,4 @@ document.addEventListener('DOMContentLoaded', function() {
         setTimeout(() => createLoveMeteor(), i * 300);
     }
 });
+
