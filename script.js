@@ -489,3 +489,156 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
+// Ocultar elementos del formulario y mensajes al inicio
+document.getElementById('proposal-container').style.display = 'none';
+document.getElementById('yes-message-container').style.display = 'none';
+document.getElementById('no-messages-container').style.display = 'none';
+
+// Referencias a los nuevos elementos
+const mainButton = document.getElementById('main-button');
+const proposalContainer = document.getElementById('proposal-container');
+const yesButton = document.getElementById('yes-button');
+const noButton = document.getElementById('no-button');
+const yesMessageContainer = document.getElementById('yes-message-container');
+const noMessagesContainer = document.getElementById('no-messages-container');
+
+// Ocultar el botón principal al inicio
+mainButton.style.display = 'none';
+
+// Ocultar el mensaje "Heart formed!"
+completionMessage.style.display = 'none';
+
+// Modificar la función animate para mostrar el botón principal después de la animación del corazón
+function animate() {
+    requestAnimationFrame(animate);
+
+    const now = Date.now();
+    if (now - lastMeteorTime > meteorInterval) {
+        createLoveMeteor();
+        lastMeteorTime = now;
+        meteorInterval = 150 + Math.random() * 250;
+    }
+
+    if (animationPhase === 0) {
+        formationProgress = Math.min(1, formationProgress + 0.003);
+        progressBar.style.width = `${formationProgress * 100}%`;
+        const positions = heartParticles.geometry.attributes.position.array;
+        const startPositions = heartParticles.geometry.startPositions;
+        const targetPositions = heartParticles.geometry.targetPositions;
+        for (let i = 0; i < positions.length; i += 3) {
+            positions[i] = startPositions[i] + (targetPositions[i] - startPositions[i]) * formationProgress;
+            positions[i+1] = startPositions[i+1] + (targetPositions[i+1] - startPositions[i+1]) * formationProgress;
+            positions[i+2] = startPositions[i+2] + (targetPositions[i+2] - startPositions[i+2]) * formationProgress;
+        }
+        heartParticles.geometry.attributes.position.needsUpdate = true;
+
+        if (formationProgress >= 1) {
+            animationPhase = 1;
+            completionMessage.style.display = "block"; // Mostrar el mensaje
+            completionMessage.style.opacity = "1";
+            completionMessage.style.transform = "translateY(0)";
+            completionMessage.textContent = "";
+            instructions.textContent = "Drag to rotate the heart • Click anywhere to create confetti explosions";
+            setTimeout(() => {
+                document.querySelector('.progress-container').style.opacity = "0";
+            }, 1500);
+
+            // Mostrar el botón principal después de 2 segundos de que se haya formado el corazón
+            setTimeout(() => {
+                mainButton.style.display = 'block';
+                mainButton.style.opacity = '1';
+            }, 2000);
+        }
+    }
+    else if (animationPhase === 1) {
+        const time = Date.now() * 0.001;
+        const positions = heartParticles.geometry.attributes.position.array;
+        const targetPositions = heartParticles.geometry.targetPositions;
+        for (let i = 0; i < positions.length; i += 3) {
+            const originalX = targetPositions[i];
+            const originalY = targetPositions[i+1];
+            const originalZ = targetPositions[i+2];
+            const distance = Math.sqrt(originalX * originalX + originalY * originalY + originalZ * originalZ);
+            const pulse = Math.sin(time * 0.5 + distance * 0.1) * 0.18 + 1;
+            positions[i] = originalX * pulse;
+            positions[i+1] = originalY * pulse;
+            positions[i+2] = originalZ * pulse;
+        }
+        heartParticles.geometry.attributes.position.needsUpdate = true;
+
+        heartParticles.rotation.x = mouseRotation.x;
+        heartParticles.rotation.y = mouseRotation.y;
+
+        if (!isDragging) {
+            if (isReturningToOrigin) {
+                mouseRotation.x += (0 - mouseRotation.x) * returnSpeed;
+                mouseRotation.y += (0 - mouseRotation.y) * returnSpeed;
+                
+                if (Math.abs(mouseRotation.x) < 0.01 && Math.abs(mouseRotation.y) < 0.01) {
+                    mouseRotation.x = 0;
+                    mouseRotation.y = 0;
+                    isReturningToOrigin = false;
+                }
+            } else {
+                rotationVelocity.x *= 0.95;
+                rotationVelocity.y *= 0.95;
+                mouseRotation.x += rotationVelocity.x;
+                mouseRotation.y += rotationVelocity.y;
+            }
+        }
+    }
+
+    renderer.render(scene, camera);
+}
+
+// Lógica de los nuevos botones
+mainButton.addEventListener('click', () => {
+    // Ocultar el botón principal y mostrar el formulario
+    mainButton.style.opacity = '0';
+    setTimeout(() => {
+        mainButton.style.display = 'none';
+        proposalContainer.style.display = 'flex';
+        proposalContainer.style.opacity = '1';
+    }, 500);
+});
+
+yesButton.addEventListener('click', () => {
+    // Ocultar el formulario y mostrar el mensaje de "Sí"
+    proposalContainer.style.opacity = '0';
+    setTimeout(() => {
+        proposalContainer.style.display = 'none';
+        yesMessageContainer.style.display = 'flex';
+        yesMessageContainer.style.opacity = '1';
+    }, 500);
+});
+
+noButton.addEventListener('click', () => {
+    // Ocultar el formulario y mostrar un mensaje aleatorio de "No"
+    const noMessages = [
+        "¡Piénsalo bien!",
+        "¡Dame una oportunidad!",
+        "Mi corazón se rompe 💔",
+        "Por favor, no me dejes así...",
+        "No acepto un no por respuesta 😉"
+    ];
+
+    proposalContainer.style.opacity = '0';
+    setTimeout(() => {
+        proposalContainer.style.display = 'none';
+        noMessagesContainer.style.display = 'flex';
+        noMessagesContainer.style.opacity = '1';
+        
+        // Seleccionar y mostrar un mensaje aleatorio
+        noMessagesContainer.querySelector('p:first-child').textContent = noMessages[Math.floor(Math.random() * noMessages.length)];
+        
+        // Volver a mostrar el botón "Sí" y "No" después de unos segundos
+        setTimeout(() => {
+            noMessagesContainer.style.opacity = '0';
+            setTimeout(() => {
+                noMessagesContainer.style.display = 'none';
+                mainButton.style.display = 'block';
+                mainButton.style.opacity = '1';
+            }, 500);
+        }, 3000); // El mensaje de "no" se muestra por 3 segundos
+    }, 500);
+});
