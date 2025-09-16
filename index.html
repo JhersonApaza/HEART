@@ -20,7 +20,6 @@
     
     <div class="instructions">Loading...</div>
 
-    <!-- Reproductor de música -->
     <div class="music-player">
         <button class="play-button" id="playButton">
             <div class="play-icon">▶</div>
@@ -28,13 +27,33 @@
         </button>
     </div>
 
-    <!-- Audio element (oculto) -->
     <audio id="backgroundMusic" loop>
         <source src="song_1.mp3" type="audio/mpeg">
         <source src="mi_cancion.ogg" type="audio/ogg">
         <source src="mi_cancion.wav" type="audio/wav">
         Tu navegador no soporta el elemento de audio.
     </audio>
-<script src="script.js"></script>
+
+    <button id="main-button" class="main-button">Toca Aquí</button>
+
+    <div id="proposal-container" class="proposal-container">
+        <p>¿Te gustaría ser mi novia?</p>
+        <div class="button-group">
+            <button id="yes-button" class="action-button yes-button">Sí</button>
+            <button id="no-button" class="action-button no-button">No</button>
+        </div>
+    </div>
+
+    <div id="yes-message-container" class="message-container">
+        <p>¡Gracias por aceptar!</p>
+        <p>Has hecho mi día perfecto.</p>
+    </div>
+
+    <div id="no-messages-container" class="message-container">
+        <p>¡Piénsalo bien!</p>
+        <p>¡Dame una oportunidad!</p>
+    </div>
+    
+    <script src="script.js"></script>
 </body>
-</html
+</html>
