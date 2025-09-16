@@ -603,3 +603,193 @@ body {
         opacity: 0;
     }
 }
+/* Nuevo botón "Toca Aquí" */
+.main-button {
+    position: absolute;
+    bottom: 120px; /* Posicionado por encima del progress-bar original */
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 40;
+    font-size: 1.8rem;
+    padding: 15px 30px;
+    background: linear-gradient(45deg, #ff69b4, #ff2a6d);
+    color: white;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    box-shadow: 0 8px 25px rgba(255, 42, 109, 0.5);
+    transition: all 0.5s ease-in-out;
+    opacity: 0; /* Oculto por defecto, se muestra con JS */
+    font-weight: bold;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+    letter-spacing: 2px;
+}
+
+.main-button:hover {
+    transform: translateX(-50%) scale(1.05);
+    background: linear-gradient(45deg, #ff2a6d, #d40078);
+    box-shadow: 0 12px 30px rgba(255, 42, 109, 0.8);
+}
+
+.main-button:active {
+    transform: translateX(-50%) scale(0.95);
+    box-shadow: 0 4px 15px rgba(255, 42, 109, 0.3);
+}
+
+/* Contenedor principal de la propuesta y mensajes */
+.proposal-container,
+.message-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 50;
+    display: flex; /* Usamos flexbox para centrar contenido */
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(15px);
+    border: 2px solid rgba(255, 42, 109, 0.4);
+    border-radius: 20px;
+    padding: 40px;
+    box-shadow: 0 0 40px rgba(255, 42, 109, 0.6);
+    transition: all 0.5s ease;
+    width: 90%;
+    max-width: 500px;
+    opacity: 0; /* Oculto por defecto */
+}
+
+/* Estilo para los textos dentro de los contenedores */
+.proposal-container p,
+.message-container p {
+    font-size: 2.2rem;
+    color: #fff;
+    font-weight: bold;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+    margin-bottom: 30px;
+}
+
+/* Grupo de botones (Sí/No) */
+.button-group {
+    display: flex;
+    gap: 30px;
+}
+
+.action-button {
+    padding: 12px 25px;
+    font-size: 1.5rem;
+    font-weight: bold;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.yes-button {
+    background: linear-gradient(135deg, #00b894, #00877a);
+    color: white;
+    box-shadow: 0 5px 15px rgba(0, 184, 148, 0.4);
+}
+
+.yes-button:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 8px 20px rgba(0, 184, 148, 0.6);
+}
+
+.no-button {
+    background: linear-gradient(135deg, #d63031, #c02121);
+    color: white;
+    box-shadow: 0 5px 15px rgba(214, 48, 49, 0.4);
+}
+
+.no-button:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 8px 20px rgba(214, 48, 49, 0.6);
+}
+
+/* Mensaje de "Gracias" */
+#yes-message-container p {
+    font-size: 3rem;
+    color: #ffb6c1;
+    line-height: 1.2;
+}
+
+/* Mensajes de "No" */
+#no-messages-container p {
+    font-size: 2.5rem;
+    color: #ff2a6d;
+    line-height: 1.5;
+}
+
+/* Responsive para los nuevos elementos */
+@media (max-width: 768px) {
+    .main-button {
+        font-size: 1.5rem;
+        padding: 12px 25px;
+        bottom: 100px;
+    }
+    
+    .proposal-container,
+    .message-container {
+        padding: 30px;
+        max-width: 95%;
+    }
+    
+    .proposal-container p,
+    .message-container p {
+        font-size: 1.8rem;
+        margin-bottom: 20px;
+    }
+    
+    .action-button {
+        font-size: 1.2rem;
+        padding: 10px 20px;
+    }
+
+    #yes-message-container p {
+        font-size: 2.5rem;
+    }
+    
+    #no-messages-container p {
+        font-size: 2rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .main-button {
+        font-size: 1.2rem;
+        padding: 10px 20px;
+        bottom: 80px;
+    }
+
+    .proposal-container,
+    .message-container {
+        padding: 20px;
+    }
+    
+    .proposal-container p,
+    .message-container p {
+        font-size: 1.5rem;
+        margin-bottom: 15px;
+    }
+
+    .action-button {
+        font-size: 1rem;
+        padding: 8px 15px;
+    }
+    
+    .button-group {
+        gap: 20px;
+    }
+
+    #yes-message-container p {
+        font-size: 2rem;
+    }
+    
+    #no-messages-container p {
+        font-size: 1.8rem;
+    }
+}
